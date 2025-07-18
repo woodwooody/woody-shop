@@ -1,0 +1,15 @@
+.cartIconContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 18px 48px 0 0;
+  position: relative;
+  z-index: 10;
+}
+
+@media (max-width: 600px) {
+  .cartIconContainer {
+    padding: 16px 16px 0 0;
+  }
+} 

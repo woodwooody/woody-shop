@@ -1,0 +1,188 @@
+.aboutContainer {
+  min-height: 100vh;
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.aboutHero {
+  text-align: center;
+  margin-bottom: 80px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.aboutHero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--brown-medium);
+  margin-bottom: 24px;
+  letter-spacing: 0.02em;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.2rem;
+  color: var(--brown-light);
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+}
+
+.aboutContent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.aboutSection {
+  background: var(--beige-light);
+  padding: 32px;
+  border-radius: 16px;
+  transition: transform 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.aboutSection:hover {
+  transform: translateY(-8px);
+}
+
+.aboutSection h2 {
+  font-size: 1.8rem;
+  color: var(--brown-dark);
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.bilingualText {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.bilingualText span {
+  display: block;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.koreanText {
+  color: var(--brown-light);
+  font-size: 0.95em;
+  opacity: 0.9;
+}
+
+/* 태블릿 */
+@media (max-width: 900px) {
+  .aboutContainer {
+    padding: 60px 16px;
+  }
+
+  .aboutHero {
+    margin-bottom: 60px;
+  }
+
+  .aboutHero h1 {
+    font-size: 2.4rem;
+  }
+
+  .heroText {
+    font-size: 1.1rem;
+  }
+
+  .aboutContent {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .aboutSection h2 {
+    font-size: 1.6rem;
+  }
+}
+
+/* 모바일 세로 */
+@media (max-width: 600px) {
+  .aboutContainer {
+    padding: 40px 12px;
+  }
+
+  .aboutHero {
+    margin-bottom: 40px;
+  }
+
+  .aboutHero h1 {
+    font-size: 2rem;
+  }
+
+  .heroText {
+    font-size: 1rem;
+  }
+
+  .aboutContent {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .aboutSection {
+    padding: 24px;
+  }
+
+  .aboutSection h2 {
+    font-size: 1.4rem;
+  }
+
+  .bilingualText {
+    gap: 12px;
+  }
+}
+
+/* 모바일 가로 */
+@media (max-height: 500px) and (orientation: landscape) {
+  .aboutContainer {
+    padding: 20px;
+  }
+
+  .aboutHero {
+    margin-bottom: 30px;
+  }
+
+  .aboutHero h1 {
+    font-size: 1.8rem;
+    margin-bottom: 16px;
+  }
+
+  .aboutContent {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .aboutSection {
+    padding: 20px;
+  }
+
+  .aboutSection h2 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+  }
+
+  .bilingualText {
+    gap: 8px;
+    font-size: 0.9rem;
+  }
+
+  .koreanText {
+    font-size: 0.85em;
+  }
+} 
