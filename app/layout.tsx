@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import CartIcon from "./components/CartIcon";
+import styles from "./page.module.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,8 +26,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <div style={{ width: "100%", display: "flex", justifyContent: "flex-end", alignItems: "center", padding: "18px 48px 0 0", position: "relative", zIndex: 10 }}>
+        <div className={styles.cartIconContainer}>
           <CartIcon />
         </div>
         {children}

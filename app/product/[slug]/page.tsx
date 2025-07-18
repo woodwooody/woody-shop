@@ -24,7 +24,7 @@ const products = [
     images: [`${basePath}/images/sample1.jpg`, `${basePath}/images/sample1-1.jpg`, `${basePath}/images/sample1-2.jpg`],
     price: "₩270,000",
     slug: "demin-shirt-indigo",
-    desc: "감각적인 인디고 컬러와 프리미엄 일본산 원단의 미니멀 데님 셔츠.",
+    desc: "감각적인 인디고 컬러와 프리미엄 일본산 원단 웨스턴 데님 셔츠.",
   },
   {
     name: "Round Neck Cardigan-Red",

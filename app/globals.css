@@ -1,19 +1,25 @@
+/* 기본 색상 및 스타일 */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --brown-dark: #2d1b0e;
+  --brown-medium: #4B2E13;
+  --brown-light: #6d4c2b;
+  --beige-light: #f7f3ef;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* 다크모드 무시 설정 */
+html {
+  color-scheme: light !important;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  background-color: var(--background);
 }
 
 body {
@@ -22,6 +28,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 18px;
 }
 
 * {
@@ -35,8 +42,32 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+/* 반응형: 모바일 세로모드 대응 */
+@media (max-width: 600px) {
+  body {
+    font-size: 15px;
+    padding: 0 4px;
+  }
+  
+  .container {
+    padding: 8px 0;
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* 태블릿 대응 */
+@media (max-width: 900px) and (min-width: 601px) {
+  body {
+    font-size: 16px;
+    padding: 0 12px;
+  }
+  
+  .container {
+    padding: 16px 0;
   }
 }

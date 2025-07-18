@@ -23,6 +23,53 @@ export default function ProductDetail({ product }: { product: Product }) {
   const [opacity, setOpacity] = useState(0);
   const [imageIdx, setImageIdx] = useState(0);
   const [hovered, setHovered] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
+  const nameRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
+  const [isPortrait, setIsPortrait] = useState(false);
+
+  useEffect(() => {
+    const checkOrientation = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    };
+    
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+    
+    return () => window.removeEventListener('resize', checkOrientation);
+  }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const swipeDistance = touchEndX.current - touchStartX.current;
+    const minSwipeDistance = 50;
+
+    if (Math.abs(swipeDistance) > minSwipeDistance) {
+      if (swipeDistance > 0) {
+        // Swipe right -> Previous image
+        setImageIdx((prev) => (prev === 0 ? product.images.length - 1 : prev - 1));
+      } else {
+        // Swipe left -> Next image
+        setImageIdx((prev) => (prev === product.images.length - 1 ? 0 : prev + 1));
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (isPressed && nameRef.current) {
+      nameRef.current.style.animation = 'none';
+      nameRef.current.offsetHeight;
+      nameRef.current.style.animation = `${styles.scrollText} 8s linear`;
+    }
+  }, [isPressed]);
 
   useEffect(() => {
     if (added && fade === 'in') {
@@ -46,6 +93,7 @@ export default function ProductDetail({ product }: { product: Product }) {
     addedTimeout.current = setTimeout(() => setFade('out'), 2000);
     setTimeout(() => setAdded(false), 2500);
   }
+
   function handleBuy() {
     handleAddToCart();
     router.push("/checkout");
@@ -54,105 +102,77 @@ export default function ProductDetail({ product }: { product: Product }) {
   return (
     <div className={styles.page}>
       {added && (
-        <div style={{
-          position: 'fixed',
-          top: 28,
-          right: 90,
-          background: '#4B2E13',
-          color: '#fff',
-          borderRadius: 18,
-          padding: '8px 24px',
-          fontWeight: 400,
-          fontStyle: 'italic',
-          fontFamily: 'var(--font-geist-sans, Arial, Helvetica, sans-serif)',
-          fontSize: 16,
-          boxShadow: '0 2px 12px rgba(45,27,14,0.10)',
-          zIndex: 1000,
-          letterSpacing: '0.04em',
+        <div className={styles.addedNotification} style={{
           opacity: opacity,
           transition: 'opacity 1.3s',
         }}>
           Added!
         </div>
       )}
-      <div className={styles.container}>
-        <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
+      <div 
+        className={styles.container}
+        onMouseDown={() => setIsPressed(true)}
+        onMouseUp={() => setIsPressed(false)}
+        onMouseLeave={() => setIsPressed(false)}
+        onTouchStart={() => setIsPressed(true)}
+        onTouchEnd={() => setIsPressed(false)}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', position: 'relative', flex: 1 }}>
           <div
             className={styles.imageWrap}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', userSelect: 'none' }}
           >
-            <button
-              onClick={() => setImageIdx((prev) => (prev === 0 ? product.images.length - 1 : prev - 1))}
-              style={{
-                position: 'absolute',
-                left: 16,
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: '#e9e4df',
-                border: 'none',
-                borderRadius: 18,
-                width: 36,
-                height: 36,
-                cursor: 'pointer',
-                fontSize: 22,
-                color: '#bca88d',
-                zIndex: 2,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                opacity: hovered ? 1 : 0,
-                transition: 'opacity 0.5s',
-                boxShadow: hovered ? '0 2px 8px rgba(188,168,141,0.10)' : 'none',
-              }}
-              aria-label="Previous image"
-            >&#8592;</button>
+            {!isPortrait && (
+              <>
+                <button
+                  onClick={() => setImageIdx((prev) => (prev === 0 ? product.images.length - 1 : prev - 1))}
+                  className={`${styles.imageButton} ${styles.prevButton}`}
+                  aria-label="Previous image"
+                >&#8592;</button>
+                <button
+                  onClick={() => setImageIdx((prev) => (prev === product.images.length - 1 ? 0 : prev + 1))}
+                  className={`${styles.imageButton} ${styles.nextButton}`}
+                  aria-label="Next image"
+                >&#8594;</button>
+              </>
+            )}
             <Image
               src={product.images[imageIdx]}
               alt={product.name}
               width={480}
               height={600}
-              className={styles.image}
+              className={`${styles.image} ${isPortrait ? styles.portraitImage : ''}`}
               priority
+              draggable={false}
             />
-            <button
-              onClick={() => setImageIdx((prev) => (prev === product.images.length - 1 ? 0 : prev + 1))}
-              style={{
-                position: 'absolute',
-                right: 16,
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: '#e9e4df',
-                border: 'none',
-                borderRadius: 18,
-                width: 36,
-                height: 36,
-                cursor: 'pointer',
-                fontSize: 22,
-                color: '#bca88d',
-                zIndex: 2,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                opacity: hovered ? 1 : 0,
-                transition: 'opacity 0.5s',
-                boxShadow: hovered ? '0 2px 8px rgba(188,168,141,0.10)' : 'none',
-              }}
-              aria-label="Next image"
-            >&#8594;</button>
           </div>
         </div>
         <div className={styles.info}>
-          <h1 className={styles.name}>{product.name}</h1>
+          <div className={styles.nameContainer}>
+            <div className={styles.name} ref={nameRef}>{product.name}</div>
+          </div>
           <div className={styles.price}>{product.price}</div>
-          <div className={styles.desc}>{product.desc}</div>
+          <div className={styles.desc}>
+            {product.desc.split('. ').map((sentence, index) => (
+              <span key={index}>
+                {sentence}{index < product.desc.split('. ').length - 1 ? '.' : ''}
+              </span>
+            ))}
+          </div>
           <div className={styles.sizes}>
             {['S', 'M', 'L'].map((s) => (
               <button
                 key={s}
                 className={size === s ? styles.sizeBtnActive : styles.sizeBtn}
-                onClick={() => setSize(s)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSize(s);
+                }}
                 type="button"
               >
                 {s}
@@ -160,10 +180,26 @@ export default function ProductDetail({ product }: { product: Product }) {
             ))}
           </div>
           <div style={{ display: "flex", gap: 16, marginBottom: 16 }}>
-            <button className={styles.cartBtn} onClick={handleAddToCart}>Add to Cart</button>
-            <button className={styles.buyBtn} onClick={handleBuy}>Checkout</button>
+            <button 
+              className={styles.cartBtn} 
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAddToCart();
+              }}
+            >
+              Add to Cart
+            </button>
+            <button 
+              className={styles.buyBtn} 
+              onClick={(e) => {
+                e.stopPropagation();
+                handleBuy();
+              }}
+            >
+              Checkout
+            </button>
           </div>
-          <Link href="/" className={styles.back}>&larr; Back to Shop</Link>
+          <Link href="/" className={styles.back} onClick={(e) => e.stopPropagation()}>&larr; Back to Shop</Link>
         </div>
       </div>
     </div>

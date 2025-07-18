@@ -50,23 +50,7 @@ export default function Home() {
             setPlaying(false);
           }
         }}
-        style={{
-          position: "fixed",
-          bottom: 32,
-          right: 32,
-          background: "#4B2E13",
-          color: "#fff",
-          border: "none",
-          borderRadius: 24,
-          padding: "12px 28px",
-          fontWeight: 600,
-          fontSize: 16,
-          cursor: "pointer",
-          zIndex: 1000,
-          boxShadow: "0 2px 12px rgba(45,27,14,0.10)",
-          fontFamily: 'var(--font-geist-sans, Arial, Helvetica, sans-serif)',
-          letterSpacing: '0.04em',
-        }}
+        className={styles.musicButton}
       >
         {playing ? "Stop Music" : "Play Music"}
       </button>
@@ -75,7 +59,7 @@ export default function Home() {
           <div className={styles.logo}>woody shop</div>
           <nav className={styles.nav}>
             <a href="#shop">Shop</a>
-            <a href="#about">About</a>
+            <Link href="/about">About</Link>
             <a href="#contact">Contact</a>
           </nav>
         </header>
@@ -101,7 +85,9 @@ export default function Home() {
                   />
                 </div>
                 <div className={styles.productInfo}>
+                  <div className={styles.productNameContainer}>
                   <div className={styles.productName}>{product.name}</div>
+                  </div>
                   <div className={styles.productPrice}>{product.price}</div>
                 </div>
               </Link>

@@ -14,18 +14,21 @@
   padding: 40px 64px 0 64px;
   background: transparent;
 }
+
 .logo {
   font-size: 2.2rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: lowercase;
-  color: #2d1b0e;
+  color: var(--brown-dark);
   font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
 }
+
 .nav {
   display: flex;
   gap: 40px;
 }
+
 .nav a {
   font-size: 1.1rem;
   color: var(--foreground);
@@ -33,6 +36,7 @@
   transition: opacity 0.2s;
   font-weight: 500;
 }
+
 .nav a:hover {
   opacity: 1;
   text-decoration: underline;
@@ -47,22 +51,35 @@
   justify-content: flex-start;
   padding: 40px 0 0 0;
 }
+
 .hero {
   text-align: center;
   margin-bottom: 56px;
+  padding: 0 12px;
+  width: 100%;
+  overflow: hidden;
 }
+
 .hero h1 {
   font-size: 3.2rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   margin-bottom: 16px;
-  color: #4B2E13;
+  color: var(--brown-medium);
+  width: 100%;
+  overflow: visible;
+  line-height: 1.2;
+  white-space: nowrap;
+  padding: 0 10px;
 }
+
 .hero p {
-  font-size: 1.2rem;
-  color: #6d4c2b;
+  font-size: 1rem;
+  color: var(--brown-light);
   letter-spacing: 0.01em;
+  line-height: 1.5;
 }
+
 .products {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -70,9 +87,11 @@
   width: 100%;
   max-width: 1080px;
   margin: 0 auto;
+  padding: 0 16px;
 }
+
 .product {
-  background: #fff;
+  background: var(--background);
   border-radius: 18px;
   box-shadow: 0 2px 16px rgba(0,0,0,0.04);
   overflow: hidden;
@@ -82,101 +101,377 @@
   align-items: center;
   cursor: pointer;
   text-decoration: none;
+  aspect-ratio: 3/4;
 }
+
 .product:hover {
   box-shadow: 0 12px 36px rgba(45,27,14,0.13);
-  transform: translateY(-6px) scale(1.035);
+  transform: translateY(-6px);
   filter: brightness(1.03);
 }
+
 .product:active {
   filter: brightness(0.93);
 }
+
 .productImageWrap {
   width: 100%;
-  background: #f7f3ef;
+  background: var(--beige-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 360px;
+  position: relative;
+  flex: 1;
+  min-height: 0; /* 이미지가 컨테이너를 벗어나지 않도록 */
 }
+
 .productImage {
-  object-fit: cover;
-  border-radius: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* cover에서 contain으로 변경하여 이미지가 잘리지 않도록 */
+  padding: 8px;
 }
+
 .productInfo {
   padding: 24px 20px 20px 20px;
   width: 100%;
   text-align: center;
 }
-.productName {
-  font-size: 1.1rem;
-  font-weight: 600;
+
+.productNameContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
   margin-bottom: 8px;
-  color: #2d1b0e;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
 }
-.productPrice {
+
+.productName {
   font-size: 1rem;
-  color: #6d4c2b;
+  font-weight: 600;
+  color: var(--brown-dark);
+  white-space: nowrap;
+  width: fit-content;
+  min-width: 100%;
+  text-align: center;
+  padding: 2px 4px;
+}
+
+@keyframes scrollText {
+  0% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(0);
+  }
+  45% {
+    transform: translateX(calc(-100% + 100px));
+  }
+  55% {
+    transform: translateX(calc(-100% + 100px));
+  }
+  90% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.product:active .productName {
+  animation: scrollText 8s linear;
+}
+
+@media (hover: none) {
+  .product:active .productName {
+    animation: scrollText 8s linear;
+  }
+}
+
+.productPrice {
+  font-size: 0.9rem;
+  color: var(--brown-light);
   font-weight: 500;
 }
+
 .footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 32px 64px;
-  background: #f7f3ef;
-  color: #2d1b0e;
+  background: var(--beige-light);
+  color: var(--brown-dark);
   font-size: 1rem;
   font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
 }
+
 .footerLinks {
   display: flex;
   gap: 32px;
 }
+
 .footerLinks a {
-  color: #2d1b0e;
+  color: var(--brown-dark);
   opacity: 0.7;
   transition: opacity 0.2s;
 }
+
 .footerLinks a:hover {
   opacity: 1;
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 
+.musicButton {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: var(--brown-medium);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 28px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 2px 12px rgba(45,27,14,0.10);
+  font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
+  letter-spacing: 0.04em;
+}
+
+.cartIconContainer {
+  position: fixed;
+  bottom: 90px;
+  right: 32px;
+  z-index: 1000;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+
+.cartIconContainer:hover {
+  opacity: 1;
+}
+
+/* 화면 크기별 세밀한 조정 */
 @media (max-width: 900px) {
-  .header, .footer {
-    padding-left: 24px;
-    padding-right: 24px;
+  .header {
+    padding: 24px 16px 0 16px;
   }
+  
+  .footer {
+    padding: 24px 16px;
+  }
+  
   .main {
     padding: 24px 0 0 0;
   }
+  
   .products {
     gap: 24px;
+    padding: 0 12px;
   }
-}
-@media (max-width: 600px) {
-  .header, .footer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 16px 8px;
-  }
-  .main {
-    padding: 12px 0 0 0;
-  }
+  
   .hero h1 {
     font-size: 2rem;
+    white-space: nowrap;
+    padding: 0 8px;
   }
-  .products {
-    grid-template-columns: 1fr;
+
+  .hero p {
+    font-size: 0.9rem;
+  }
+
+  .product {
+    aspect-ratio: 2/3; /* 태블릿에서는 좀 더 세로로 긴 비율 */
+  }
+
+  .productName {
+    font-size: 0.9rem;
+  }
+
+  .productPrice {
+    font-size: 0.8rem;
+  }
+
+  .musicButton {
+    bottom: 24px;
+    right: 24px;
+    padding: 10px 24px;
+    font-size: 15px;
+  }
+
+  .cartIconContainer {
+    bottom: 80px;
+    right: 24px;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
     gap: 16px;
+    padding: 16px 8px 0 8px;
   }
+  
+  .logo {
+    font-size: 1.8rem;
+  }
+  
+  .nav {
+    gap: 24px;
+  }
+  
+  .nav a {
+    font-size: 0.95rem;
+  }
+  
+  .main {
+    padding: 16px 0 0 0;
+  }
+  
+  .hero {
+    margin-bottom: 32px;
+    padding: 0 8px;
+  }
+  
+  .hero h1 {
+    font-size: 1.3rem;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+    padding: 0 6px;
+  }
+  
+  .hero p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  
+  .products {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* 한 줄에 2개씩 표시 */
+    gap: 16px;
+    padding: 0 8px;
+  }
+  
+  .product {
+    aspect-ratio: 3/5; /* 모바일에서는 더 세로로 긴 비율 */
+    box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+  }
+  
+  .product:hover {
+    transform: translateY(-3px) scale(1.02); /* 모바일에서는 호버 효과 줄임 */
+    box-shadow: 0 6px 18px rgba(45,27,14,0.1);
+  }
+
   .productImageWrap {
-    height: 220px;
+    padding: 4px;
   }
+
+  .productImage {
+    padding: 4px;
+  }
+  
   .productInfo {
-    padding: 12px 8px 12px 8px;
+    padding: 12px 8px;
+  }
+  
+  .productName {
+    font-size: 0.85rem;
+  }
+  
+  .productPrice {
+    font-size: 0.75rem;
+  }
+  
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 8px;
+    text-align: center;
+  }
+  
+  .footerLinks {
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .musicButton {
+    bottom: 20px;
+    right: 20px;
+    padding: 8px 20px;
+    font-size: 14px;
+    border-radius: 20px;
+  }
+
+  .cartIconContainer {
+    bottom: 70px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  .hero {
+    padding: 0 4px;
+  }
+
+  .hero h1 {
+    font-size: 1.1rem;
+    white-space: nowrap;
+    letter-spacing: 0;
+    padding: 0 4px;
+  }
+
+  .hero p {
+    font-size: 0.8rem;
+    line-height: 1.7;
+  }
+
+  .productName {
+    font-size: 0.8rem;
+  }
+
+  .productPrice {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .hero h1 {
+    font-size: 1rem;
+    letter-spacing: 0;
+  }
+  
+  .hero p {
+    font-size: 0.9rem;
+  }
+}
+
+/* 가로 모드 대응 */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    margin-bottom: 20px;
+    padding: 0 6px;
+  }
+  
+  .hero h1 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    letter-spacing: 0.01em;
+  }
+  
+  .hero p {
+    font-size: 0.9rem;
   }
 }
